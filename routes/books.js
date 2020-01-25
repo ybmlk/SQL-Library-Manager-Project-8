@@ -31,26 +31,10 @@ router.get(
     const books = await Book.findAll({
       where: {
         [Op.or]: [
-          {
-            title: {
-              [Op.like]: `%${search}%`
-            }
-          },
-          {
-            author: {
-              [Op.like]: `%${search}%`
-            }
-          },
-          {
-            genre: {
-              [Op.like]: `%${search}%`
-            }
-          },
-          {
-            year: {
-              [Op.like]: `%${search}%`
-            }
-          }
+          { title: { [Op.like]: `%${search}%` } },
+          { author: { [Op.like]: `%${search}%` } },
+          { genre: { [Op.like]: `%${search}%` } },
+          { year: { [Op.like]: `%${search}%` } }
         ]
       }
     });

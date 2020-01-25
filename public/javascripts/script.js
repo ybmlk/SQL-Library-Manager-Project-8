@@ -1,31 +1,26 @@
 const tableList = document.getElementsByTagName('table')[0].childNodes[1];
+// an array of table rows
 const books = tableList.childNodes;
-
-const errorMessage = document.querySelector('.no-result');
-errorMessage.style.display = 'none';
-
 const pageDiv = document.querySelector('.page');
 // number of items listed per page
 const numItems = 10;
 
 // General funtion to create, append and add a property to elements
-function createElement(elementName, parentNode, property, value) {
+const createElement = (elementName, parentNode, property, value) => {
   const element = document.createElement(elementName);
   element[property] = value;
   parentNode.appendChild(element);
   return element;
-}
+};
 
 // Hides all the list items except for ones in a given page
-function showPage(list, page) {
+const showPage = (list, page) => {
   const startIndex = page * numItems - numItems;
   let endIndex;
   // Makes sure the last page contains the rest of the items
-  if (page <= Math.floor(list.length / numItems)) {
-    endIndex = page * numItems;
-  } else {
-    endIndex = list.length;
-  }
+  page <= Math.floor(list.length / numItems)
+    ? (endIndex = page * numItems)
+    : (endIndex = list.length);
 
   for (let i = 0; i < list.length; i++) {
     list[i].style.display = 'none';
@@ -33,17 +28,17 @@ function showPage(list, page) {
   for (let i = startIndex; i < endIndex; i++) {
     list[i].style.display = '';
   }
-}
+};
 
 // Generates, appends, and adds functionality to the pagination buttons
-function appendPageLinks(list) {
+const appendPageLinks = list => {
   const paginationDiv = createElement('div', pageDiv, 'className', 'pagination');
   const ul = createElement('ul', paginationDiv);
 
   // Assigns number of pages based on the length of the list
   for (let i = 1; i <= Math.ceil(list.length / numItems); i++) {
     const li = createElement('li', ul);
-    const a = createElement('a', li, 'href', '#');
+    const a = createElement('a', li, 'href', `#page-${i}`);
     a.textContent = i;
   }
 
@@ -64,47 +59,21 @@ function appendPageLinks(list) {
       showPage(list, pageNum);
     }
   });
-}
+};
 
-function searchBar() {
+const searchBar = () => {
   const searchForm = document.querySelector('.search-form');
+  const errorMessage = document.querySelector('.no-result');
+  errorMessage.style.display = 'none';
 
-  // filters the list based on the input provided
-  function getSearchResult() {
-    const searchTerm = input.value.toLowerCase();
-    const searchResults = [];
-
-    for (let i = 0; i < studentList.length; i++) {
-      const name = studentList[i].querySelector('h3').textContent;
-
-      if (name.toLowerCase().indexOf(searchTerm) !== -1) {
-        studentList[i].style.display = 'block';
-        searchResults.push(studentList[i]);
-      } else {
-        studentList[i].style.display = 'none';
-      }
-    }
-
-    if (books.length === 0) {
-      errorMessage.style.display = 'block';
-    } else {
-      errorMessage.style.display = 'none';
-    }
-
-    pageDiv.removeChild(pageDiv.querySelector('.pagination'));
-    appendPageLinks(searchResults);
-  }
+  books.length === 0
+    ? (errorMessage.style.display = 'block')
+    : (errorMessage.style.display = 'none');
 
   searchForm.addEventListener('submit', () => {
-    getSearchResult();
+    pageDiv.removeChild(pageDiv.querySelector('.pagination'));
   });
-}
+};
 
 searchBar();
 appendPageLinks(books);
-console.log(books.length);
-if (books.length === 0) {
-  errorMessage.style.display = 'block';
-} else {
-  errorMessage.style.display = 'none';
-}
