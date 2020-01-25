@@ -4,7 +4,8 @@ block content
   form(action=`/books/search/` class="search-form")
     input(name="search" type="text"  placeholder="Search: (Title, Author, Genre or Year)" class="text") 
     input(type='submit' value='Search' class="button")
-  h1 Books
+  h1 
+    a(href=`/books/`) Books
   p
     a.button(href='/books/new') Create New Book
   table
@@ -23,4 +24,5 @@ block content
           td= book.genre
           td= book.year
   .page
+    p.no-result No results found.
     

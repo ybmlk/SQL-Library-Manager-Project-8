@@ -1,6 +1,9 @@
 const tableList = document.getElementsByTagName('table')[0].childNodes[1];
 const books = tableList.childNodes;
 
+const errorMessage = document.querySelector('.no-result');
+errorMessage.style.display = 'none';
+
 const pageDiv = document.querySelector('.page');
 // number of items listed per page
 const numItems = 10;
@@ -65,8 +68,6 @@ function appendPageLinks(list) {
 
 function searchBar() {
   const searchForm = document.querySelector('.search-form');
-  const errorMessage = createElement('p', pageDiv, 'textContent', 'No results found.');
-  errorMessage.style.display = 'none';
 
   // filters the list based on the input provided
   function getSearchResult() {
@@ -84,8 +85,8 @@ function searchBar() {
       }
     }
 
-    if (searchResults.length === 0) {
-      errorMessage.style.display = '';
+    if (books.length === 0) {
+      errorMessage.style.display = 'block';
     } else {
       errorMessage.style.display = 'none';
     }
@@ -101,5 +102,9 @@ function searchBar() {
 
 searchBar();
 appendPageLinks(books);
-
-console.log(books);
+console.log(books.length);
+if (books.length === 0) {
+  errorMessage.style.display = 'block';
+} else {
+  errorMessage.style.display = 'none';
+}
