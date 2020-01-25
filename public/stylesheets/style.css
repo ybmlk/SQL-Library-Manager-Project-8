@@ -35,6 +35,11 @@ input[type='submit'] {
   border: 0;
 }
 
+input[type='text'] {
+  border: 1px solid #01b189;
+  background-color: #e7e7e7;
+}
+
 a.button:hover,
 input[type='submit']:hover {
   background-color: #01b189;
@@ -68,6 +73,16 @@ tr {
 
 tr:nth-child(2n) {
   background: #e7e7e7;
+}
+
+tr td:nth-child(1) {
+  width: 40%;
+}
+
+tr td:nth-child(2),
+tr td:nth-child(3),
+tr td:nth-child(4) {
+  width: 20%;
 }
 
 td {
@@ -106,13 +121,12 @@ input[type='text'] {
 }
 
 .search-form .text {
-  border: 1px solid #eaeaea;
   padding: 8px 15px;
   font-size: 14px;
 }
 
 .search-form .button {
-  border: 1px solid #eaeaea;
+  border: 1px solid #01b189;
   margin: 0em;
   padding: 8px 15px;
   font-size: 14px;
@@ -135,11 +149,11 @@ table {
 }
 
 .pagination li a {
-  border: 1px solid #eaeaea;
+  border: 1px solid #01b189;
+  background-color: #e7e7e7;
   padding: 0.5rem 1rem;
   text-decoration: none;
   color: #01b189;
-  
 }
 
 .pagination li a.active,
