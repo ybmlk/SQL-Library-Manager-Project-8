@@ -99,9 +99,10 @@ input[type='text'] {
   color: rgb(236, 15, 15);
 }
 
+/* my custom styles */
 .search-form {
   float: right;
-  margin-top: 1.5rem;
+  margin-top: 5rem;
 }
 
 .search-form .text {
@@ -117,4 +118,8 @@ input[type='text'] {
   font-size: 14px;
   color: #fff;
   font-weight: bold;
+}
+
+table {
+  width: 100%;
 }
