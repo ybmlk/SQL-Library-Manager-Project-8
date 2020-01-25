@@ -34,8 +34,18 @@ router.get(
 router.post(
   '/new',
   asyncHandler(async (req, res) => {
-    await Book.create(req.body);
-    res.redirect('/books/');
+    try {
+      await Book.create(req.body);
+      res.redirect('/books/');
+    } catch (error) {
+      if (error.name === 'SequelizeValidationError') {
+        // checking the error
+        const book = await Book.build(req.body);
+        res.render('books/new', { book, errors: error.errors, title: 'New Book' });
+      } else {
+        throw error; // error caught in the asyncHandler's catch block
+      }
+    }
   })
 );
 
@@ -47,7 +57,7 @@ router.get(
     if (book) {
       res.render('books/edit', { book, title: book.title });
     } else {
-      res.status(404).render('404', { msg: 'book', title: 'Page Not Found' });
+      res.status(404).render('404', { msg: 'Book', title: 'Page Not Found' });
     }
   })
 );
@@ -56,13 +66,25 @@ router.get(
 router.post(
   '/:id',
   asyncHandler(async (req, res) => {
-    const book = await Book.findByPk(req.params.id);
-    if (book) {
-      await book.update(req.body);
-    } else {
-      res.status(404).render('404', { msg: 'book', title: 'Page Not Found' });
+    let book;
+    try {
+      book = await Book.findByPk(req.params.id);
+      if (book) {
+        await book.update(req.body);
+        res.redirect('/books/');
+      } else {
+        res.status(404).render('404', { msg: 'Book', title: 'Page Not Found' });
+      }
+      res.redirect('/books');
+    } catch (error) {
+      if (error.name === 'SequelizeValidationError') {
+        book = await Book.build(req.body);
+        book.id = req.params.id; // make sure correct article gets updated
+        res.render('books/edit', { book, errors: error.errors, title: 'Update Book' });
+      } else {
+        throw error;
+      }
     }
-    res.redirect('/books');
   })
 );
 
@@ -74,7 +96,7 @@ router.get(
     if (book) {
       res.render('books/delete', { book, title: 'Delete Book' });
     } else {
-      res.status(404).render('404', { msg: 'book', title: 'Page Not Found' });
+      res.status(404).render('404', { msg: 'Book', title: 'Page Not Found' });
     }
   })
 );
@@ -88,7 +110,7 @@ router.post(
       await book.destroy();
       res.redirect('/books');
     } else {
-      res.status(404).render('404', { msg: 'book', title: 'Page Not Found' });
+      res.status(404).render('404', { msg: 'Book', title: 'Page Not Found' });
     }
   })
 );
