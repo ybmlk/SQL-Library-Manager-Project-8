@@ -13,12 +13,38 @@ function asyncHandler(cb) {
   };
 }
 
-/* GET users listing. */
+/* GET books listing. */
 router.get(
   '/',
   asyncHandler(async (req, res) => {
     const books = await Book.findAll({ order: [['title', 'ASC']] });
-    res.render('books/index', { books });
+    res.render('books/index', { books, title: 'Books' });
+  })
+);
+
+/* Create a new book form. */
+router.get(
+  '/new',
+  asyncHandler(async (req, res) => {
+    res.render('books/new', { book: {}, title: 'New Book' });
+  })
+);
+
+/* Post create book. */
+router.post(
+  '/new',
+  asyncHandler(async (req, res) => {
+    await Book.create(req.body);
+    res.redirect('/books/');
+  })
+);
+
+/* Show/Edit individual book. */
+router.get(
+  '/:id',
+  asyncHandler(async (req, res) => {
+    const book = await Book.findByPk(req.params.id);
+    res.render('books/edit', { book, title: book.title });
   })
 );
 
