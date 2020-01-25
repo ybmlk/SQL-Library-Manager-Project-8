@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/books', booksRouter);
 
-// catch 404 and forward to error handler
+// catch 404 and renders 404.pug
 app.use((req, res, next) => {
   res.status(404).render('404', { msg: 'Page', title: 'Page Not Found' });
 });

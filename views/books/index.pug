@@ -1,6 +1,9 @@
 extends ../layout 
 
 block content 
+  form(action=`/books/search/` class="search-form")
+    input(name="search" type="text"  placeholder="Search: (Title, Author, Genre or Year)" class="text") 
+    input(type='submit' value='Search' class="button")
   h1 Books
   p
     a.button(href='/books/new') Create New Book
@@ -19,4 +22,3 @@ block content
           td= book.author
           td= book.genre
           td= book.year
-      
