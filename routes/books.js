@@ -47,7 +47,7 @@ router.get(
     if (book) {
       res.render('books/edit', { book, title: book.title });
     } else {
-      res.sendStatus(404);
+      res.status(404).render('404', { msg: 'book', title: 'Page Not Found' });
     }
   })
 );
@@ -60,7 +60,7 @@ router.post(
     if (book) {
       await book.update(req.body);
     } else {
-      res.sendStatus(404);
+      res.status(404).render('404', { msg: 'book', title: 'Page Not Found' });
     }
     res.redirect('/books');
   })
@@ -74,7 +74,7 @@ router.get(
     if (book) {
       res.render('books/delete', { book, title: 'Delete Book' });
     } else {
-      res.sendStatus(404);
+      res.status(404).render('404', { msg: 'book', title: 'Page Not Found' });
     }
   })
 );
@@ -88,7 +88,7 @@ router.post(
       await book.destroy();
       res.redirect('/books');
     } else {
-      res.sendStatus(404);
+      res.status(404).render('404', { msg: 'book', title: 'Page Not Found' });
     }
   })
 );
