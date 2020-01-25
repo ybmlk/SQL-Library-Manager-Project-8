@@ -44,7 +44,52 @@ router.get(
   '/:id',
   asyncHandler(async (req, res) => {
     const book = await Book.findByPk(req.params.id);
-    res.render('books/edit', { book, title: book.title });
+    if (book) {
+      res.render('books/edit', { book, title: book.title });
+    } else {
+      res.sendStatus(404);
+    }
+  })
+);
+
+/* Update a book. */
+router.post(
+  '/:id',
+  asyncHandler(async (req, res) => {
+    const book = await Book.findByPk(req.params.id);
+    if (book) {
+      await book.update(req.body);
+    } else {
+      res.sendStatus(404);
+    }
+    res.redirect('/books');
+  })
+);
+
+/* Delete book form. */
+router.get(
+  '/:id/delete',
+  asyncHandler(async (req, res) => {
+    const book = await Book.findByPk(req.params.id);
+    if (book) {
+      res.render('books/delete', { book, title: 'Delete Book' });
+    } else {
+      res.sendStatus(404);
+    }
+  })
+);
+
+/* Delete book confirmed */
+router.post(
+  '/:id/delete',
+  asyncHandler(async (req, res) => {
+    const book = await Book.findByPk(req.params.id);
+    if (book) {
+      await book.destroy();
+      res.redirect('/books');
+    } else {
+      res.sendStatus(404);
+    }
   })
 );
 
