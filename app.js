@@ -4,6 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const { sequelize } = require('./models');
+
 const indexRouter = require('./routes/index');
 const booksRouter = require('./routes/books');
 
@@ -18,6 +20,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// test the connection to the database.
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to the database is successfull~');
+  } catch (error) {
+    console.log(error.message);
+  }
+})();
 
 app.use('/', indexRouter);
 app.use('/books', booksRouter);
