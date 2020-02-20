@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
     await sequelize.authenticate();
     console.log('Connection to the database is successfull~');
   } catch (error) {
-    console.log(error.message);
+    console.log('Unable to connect to the database:', error);
   }
 })();
 
